@@ -59,7 +59,7 @@ Query: {
 
             if(!correctPassword){
                 errors.password = "password is incorrect"
-                throw new AuthenticationError('password is incorrect', {errors})
+                throw new UserInputError('password is incorrect', {errors})
             }
 
             const token = jwt.sign({ username }, JWT_SECRET, {expiresIn: 60 * 60});
@@ -90,13 +90,6 @@ Query: {
 
             if(password !== confirmPassword) errors.confirmPassword = 'Passwords must match'
 
-            //  Check if username/email exists
-            //const userByUsername = await User.findOne({where:{username}})
-            // const userByEmail = await User.findOne({where:{email}})
-
-            //if(userByUsername) errors.username = "Username is taken"
-            //if(userByEmail) errors.email = "Email is taken"
-
             if(Object.keys(errors).length > 0){
                 throw errors
             }
@@ -106,7 +99,7 @@ Query: {
             //  Create user
             const user = await User.create({
                 username,
-                email, 
+                email,
                 password
             })
             //  Return user
